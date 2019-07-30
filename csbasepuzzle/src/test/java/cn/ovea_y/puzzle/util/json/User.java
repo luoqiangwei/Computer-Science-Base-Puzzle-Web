@@ -1,7 +1,9 @@
 package cn.ovea_y.puzzle.util.json;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class User {
     private String name;
@@ -9,6 +11,24 @@ public class User {
     private HashMap id;
     private Object[] array;
     private Car[][] cars;
+    private Set set;
+    private List list;
+
+    public Set getSet() {
+        return set;
+    }
+
+    public void setSet(Set set) {
+        this.set = set;
+    }
+
+    public List getList() {
+        return list;
+    }
+
+    public void setList(List list) {
+        this.list = list;
+    }
 
     public Car[][] getCars() {
         return cars;

@@ -35,7 +35,6 @@ public class JSON {
                         t.append(temp);
                     }
                     try {
-                        System.out.println(method.getReturnType().getName());
                         if(method.getReturnType().getName().equals("java.lang.Integer") || method.getReturnType().getName().equals("int") || method.getReturnType().getName().equals("java.lang.Boolean") || method.getReturnType().getName().equals("boolean") || method.getReturnType().getName().equals("java.lang.Long") || method.getReturnType().getName().equals("long") || method.getReturnType().getName().equals("java.lang.Float") || method.getReturnType().getName().equals("float") || method.getReturnType().getName().equals("java.lang.Double") || method.getReturnType().getName().equals("double") || method.getReturnType().getName().equals("java.lang.Byte") || method.getReturnType().getName().equals("byte") || method.getReturnType().getName().equals("java.lang.Short") || method.getReturnType().getName().equals("short")){
                             t.append("\":");
                             t.append(method.invoke(object, null).toString());
@@ -112,12 +111,64 @@ public class JSON {
         return stringBuilder.toString();
     }
 
-    private static void deepFindSet(StringBuilder t, Set set){
-
+    private static void deepFindSet(StringBuilder t, Set set) throws JSONExption {
+        if(set != null){
+            t.append("[");
+            for(Object o : set){
+                if(o.getClass().isArray()){
+                    deepFindArray(t, o);
+                }else if(o instanceof Set){
+                    deepFindSet(t, (Set) o);
+                }else if(o instanceof Map){
+                    deepFindMap(t, (Map) o);
+                }else if(o instanceof List){
+                    deepFindList(t, (List) o);
+                }else if(o.getClass().getName().indexOf("java") == 0 && !o.getClass().getName().contains("Object")){
+                    t.append(o);
+                    t.append(',');
+                }else {
+                    t.append(objectToJson(o));
+                    t.append(',');
+                }
+            }
+            if(t.charAt(t.length() - 1) == '[') {
+                t.append(']');
+            }else {
+                t.setCharAt(t.length() - 1, ']');
+            }
+        }else {
+            t.append("null");
+        }
     }
 
-    private static void deepFindList(StringBuilder t, List list){
-
+    private static void deepFindList(StringBuilder t, List list) throws JSONExption {
+        if(list != null){
+            t.append("[");
+            for(Object o : list){
+                if(o.getClass().isArray()){
+                    deepFindArray(t, o);
+                }else if(o instanceof Set){
+                    deepFindSet(t, (Set) o);
+                }else if(o instanceof Map){
+                    deepFindMap(t, (Map) o);
+                }else if(o instanceof List){
+                    deepFindList(t, (List) o);
+                }else if(o.getClass().getName().indexOf("java") == 0 && !o.getClass().getName().contains("Object")){
+                    t.append(o);
+                    t.append(',');
+                }else {
+                    t.append(objectToJson(o));
+                    t.append(',');
+                }
+            }
+            if(t.charAt(t.length() - 1) == '[') {
+                t.append(']');
+            }else {
+                t.setCharAt(t.length() - 1, ']');
+            }
+        }else {
+            t.append("null");
+        }
     }
 
     private static void deepFindMap(StringBuilder t, Map map) throws JSONExption {
@@ -170,7 +221,6 @@ public class JSON {
     }
 
     private static void deepFindArray(StringBuilder stringBuilder, Object object) throws JSONExption {
-//        System.out.println(object.getClass().getName());
         if(object.getClass().getName().contains("[[")){
             Object[] objects = (Object[]) object;
             stringBuilder.append("[");
@@ -218,6 +268,10 @@ public class JSON {
                         for(Object o : (Object[]) object){
                             if(o instanceof Map){
                                 deepFindMap(stringBuilder, (Map) o);
+                            }else if(o instanceof Set){
+                                deepFindSet(stringBuilder, (Set) o);
+                            }else if(o instanceof List){
+                                deepFindList(stringBuilder, (List) o);
                             }else {
                                 stringBuilder.append(objectToJson(o));
                                 stringBuilder.append(",");
@@ -229,7 +283,6 @@ public class JSON {
                             stringBuilder.setCharAt(stringBuilder.length() - 1, ']');
                         }
                     }
-
             }
         }
     }
