@@ -1,5 +1,6 @@
 .idea
 *.iml
 target
-.properties
+*.properties
 c3p0-config.xml
+RSA_*
