@@ -35,7 +35,7 @@
   
 * Build Nanoflake builder ✅
   
-* Build  Charset transfer Tool ✅
+* Build Charset transfer Tool ✅
   
 * Build Verify Code builder ✅
   
