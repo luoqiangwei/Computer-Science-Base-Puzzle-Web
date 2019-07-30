@@ -7,8 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * 使用本类的方法，必须提供c3p0-copnfig.xml文件
- * @author qdmmy6
+ * @author OVEA
  */
 public class JdbcUtils {
     private static DataSource ds = new ComboPooledDataSource();

@@ -11,16 +11,17 @@ public class Test {
         HashMap map = new HashMap();
         Map map1 = new HashMap();
         map.put("String", new Car("BOX", "black"));
-        map.put(1, new int[][]{new int[]{12, 34,656 ,34}, new int[]{1}});
-        user.setCars(new Car[][]{new Car[]{new Car("AA", "AAC"), new Car("BB", "BBC")}, new Car[]{}});
+//        map.put("String", "box");
+        map.put('1', new int[][]{new int[]{12, 34,656 ,34}, new int[]{1}});
+//        user.setCars(new Car[][]{new Car[]{new Car("AA", "AAC"), new Car("BB", "BBC")}, new Car[]{}});
         user.setArray(new Object[]{map});
         user.setId(map);
         Set set = new HashSet();
         set.add(23);
-        set.add(map);
+//        set.add(map);
         user.setSet(set);
-        User user1 = new User(null, null);
-        System.out.println(JSON.objectToJson(user1));
+//        User user1 = new User(null, null);
+//        System.out.println(JSON.objectToJson(user1));
         System.out.println(JSON.objectToJson(user));
         //{"name":"OVEA","array":[{1=[[12, 34, 656, 34],[1]],"String"={"name":"BOX","color":"black"}],
         // "id":{1=[[12, 34, 656, 34],[1]],"String"={"name":"BOX","color":"black"}},

@@ -1,0 +1,31 @@
+package cn.ovea_y.puzzle.util.security;
+
+import cn.ovea_y.puzzle.util.cache.JedisPoolUtils;
+import redis.clients.jedis.Jedis;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+public class Token {
+    private static Jedis jedis = JedisPoolUtils.getJedis();
+    private static int timeout;
+    static {
+        InputStream inStream = Token.class.getClassLoader().getResourceAsStream("config/config.properties");
+        Properties properties = new Properties();
+        try {
+            properties.load(inStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        timeout = Integer.parseInt(properties.get("token-timeout").toString());
+    }
+
+    public static boolean checkToken(String userId, String key){
+        return String.valueOf(jedis.get(userId)).equals(key);
+    }
+    public static void addToken(String userId, String key){
+        jedis.set(userId, key);
+        jedis.expire(userId, timeout);
+    }
+}

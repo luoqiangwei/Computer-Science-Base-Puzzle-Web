@@ -176,24 +176,24 @@ public class JSON {
         t.append("{");
         for(Object item : key){
             if(item.getClass().getName().equals("java.lang.Integer") || item.getClass().getName().equals("int") || item.getClass().getName().equals("java.lang.Boolean") || item.getClass().getName().equals("boolean") || item.getClass().getName().equals("java.lang.Long") || item.getClass().getName().equals("long") || item.getClass().getName().equals("java.lang.Float") || item.getClass().getName().equals("float") || item.getClass().equals("java.lang.Double") || item.getClass().getName().equals("double") || item.getClass().getName().equals("java.lang.Byte") || item.getClass().getName().equals("byte") || item.getClass().getName().equals("java.lang.Short") || item.getClass().getName().equals("short")){
-                t.append(item + "=");
+                t.append(item + ":");
             }else if(item instanceof Map){
                 deepFindMap(t, map);
-                t.append("=");
+                t.append(":");
             }else if(item.getClass().isArray()){
                 deepFindArray(t, item);
-                t.append("=");
+                t.append(":");
             }else if(item instanceof Set){
                 deepFindSet(t, (Set) item);
-                t.append("=");
+                t.append(":");
             }else if(item instanceof List){
                 deepFindList(t, (List) item);
-                t.append("=");
+                t.append(":");
             }else if(item.getClass().getName().indexOf("java") == 0){
-                t.append("\"" + item + "\"=");
+                t.append("\"" + item + "\":");
             }else {
                 t.append(objectToJson(item));
-                t.append("=");
+                t.append(":");
             }
             Object oo = map.get(item);
             if(oo.getClass().getName().indexOf("java") == 0){
@@ -203,8 +203,10 @@ public class JSON {
                     deepFindSet(t, (Set) item);
                 }else if(item instanceof List){
                     deepFindList(t, (List) item);
-                }else {
+                }else if(item.getClass().getName().equals("java.lang.Integer") || item.getClass().getName().equals("int") || item.getClass().getName().equals("java.lang.Boolean") || item.getClass().getName().equals("boolean") || item.getClass().getName().equals("java.lang.Long") || item.getClass().getName().equals("long") || item.getClass().getName().equals("java.lang.Float") || item.getClass().getName().equals("float") || item.getClass().equals("java.lang.Double") || item.getClass().getName().equals("double") || item.getClass().getName().equals("java.lang.Byte") || item.getClass().getName().equals("byte") || item.getClass().getName().equals("java.lang.Short") || item.getClass().getName().equals("short")){
                     t.append(oo);
+                }else{
+                    t.append("\"" + oo + "\"");
                 }
             }else if(oo.getClass().isArray()){
                 deepFindArray(t, oo);
@@ -277,7 +279,7 @@ public class JSON {
                                 stringBuilder.append(",");
                             }
                         }
-                        if(stringBuilder.charAt(stringBuilder.length() - 1) == '[') {
+                        if(stringBuilder.charAt(stringBuilder.length() - 1) == '[' || stringBuilder.charAt(stringBuilder.length() - 1) == '}') {
                             stringBuilder.append(']');
                         }else {
                             stringBuilder.setCharAt(stringBuilder.length() - 1, ']');
