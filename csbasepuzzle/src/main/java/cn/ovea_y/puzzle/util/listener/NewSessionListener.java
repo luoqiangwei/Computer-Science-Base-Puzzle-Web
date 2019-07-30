@@ -1,6 +1,6 @@
 package cn.ovea_y.puzzle.util.listener;
 
-import cn.oveay.classdesign.util.listener.base.NewSessionContext;
+import cn.ovea_y.puzzle.util.listener.base.NewSessionContext;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;

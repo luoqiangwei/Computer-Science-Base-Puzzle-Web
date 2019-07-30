@@ -7,17 +7,19 @@ import java.util.Map;
 
 /**
  * 对GET请求参数加以处理！
- * @author qdmmy6
+ * @author OVEA
  *
  */
 public class GetRequest extends HttpServletRequestWrapper {
 	private HttpServletRequest request;
 	private String charset;
+	private String oldCharset;
 	
-	public GetRequest(HttpServletRequest request, String charset) {
+	public GetRequest(HttpServletRequest request, String charset, String oldCharset) {
 		super(request);
 		this.request = request;
 		this.charset = charset;
+		this.oldCharset = oldCharset;
 	}
 
 	@Override
@@ -27,7 +29,7 @@ public class GetRequest extends HttpServletRequestWrapper {
 		if(value == null) return null;//如果为null，直接返回null
 		try {
 			// 对参数进行编码处理后返回
-			return new String(value.getBytes("ISO-8859-1"), charset);
+			return new String(value.getBytes(oldCharset), charset);
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
@@ -43,7 +45,7 @@ public class GetRequest extends HttpServletRequestWrapper {
 			String[] values = map.get(key);
 			for(int i = 0; i < values.length; i++) {
 				try {
-					values[i] = new String(values[i].getBytes("ISO-8859-1"), charset);
+					values[i] = new String(values[i].getBytes(oldCharset), charset);
 				} catch (UnsupportedEncodingException e) {
 					throw new RuntimeException(e);
 				}
@@ -58,7 +60,7 @@ public class GetRequest extends HttpServletRequestWrapper {
 		String[] values = super.getParameterValues(name);
 		for(int i = 0; i < values.length; i++) {
 			try {
-				values[i] = new String(values[i].getBytes("ISO-8859-1"), charset);
+				values[i] = new String(values[i].getBytes(oldCharset), charset);
 			} catch (UnsupportedEncodingException e) {
 				throw new RuntimeException(e);
 			}

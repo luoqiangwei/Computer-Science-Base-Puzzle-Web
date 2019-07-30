@@ -1,6 +1,7 @@
 package cn.ovea_y.puzzle.util.json;
 
-import cn.oveay.classdesign.util.json.exption.JSONExption;
+
+import cn.ovea_y.puzzle.util.json.exption.JSONExption;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

@@ -19,12 +19,11 @@
 
 * Build Tool Class
 
-  * Build Thread Pool manage tool
   * Build Data Access Object auto build tool
   * Build service auto build tool
   * Build automatic injection tool
   * Build inversion of control Tool
-  * Build Anti-theft Chain Tool
+  * Build Anti-theft Chain Tool ✅
   * Build Heartbeat Tool ✅
   * Build encryption Tool ✅
     * AES ✅
@@ -32,8 +31,15 @@
     * SHA ✅
     * MD5 ✅
   * Build token Tool
-  * Build Mail Tool
+  * Build Mail Tool ✅
+  
 * Build Nanoflake builder ✅
+  
+* Build  Charset transfer Tool ✅
+  
+* Build Verify Code builder ✅
+  
+* Build JSON builder ✅
   
   
 

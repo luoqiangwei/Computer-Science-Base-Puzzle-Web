@@ -8,14 +8,10 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 /**
- * BaseServlet用来作为其它Servlet的父类
- * 
- * @author qdmmy6
- * 
- *         一个类多个请求处理方法，每个请求处理方法的原型与service相同！ 原型 = 返回值类型 + 方法名称 + 参数列表
+ * @author OVEA
  */
 @SuppressWarnings("serial")
-public class BaseServlet extends HttpServlet {
+public class AutoFunctionServlet extends HttpServlet {
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -34,7 +30,7 @@ public class BaseServlet extends HttpServlet {
 			method = this.getClass().getMethod(methodName,
 					HttpServletRequest.class, HttpServletResponse.class);
 		} catch (Exception e) {
-			throw new RuntimeException("您要调用的方法：" + methodName + "它不存在！", e);
+			throw new RuntimeException("方法：" + methodName + "不存在！", e);
 		}
 		
 		/**
@@ -42,16 +38,23 @@ public class BaseServlet extends HttpServlet {
 		 */
 		try {
 			String result = (String)method.invoke(this, request, response);
-			if(result != null && !result.trim().isEmpty()) {//如果请求处理方法返回不为空
-				int index = result.indexOf(":");//获取第一个冒号的位置
-				if(index == -1) {//如果没有冒号，使用转发
+			//如果请求处理方法返回不为空
+			if(result != null && !result.trim().isEmpty()) {
+				//获取第一个冒号的位置
+				int index = result.indexOf(":");
+				//如果没有冒号，使用转发
+				if(index == -1) {
 					request.getRequestDispatcher(result).forward(request, response);
 				} else {//如果存在冒号
-					String start = result.substring(0, index);//分割出前缀
-					String path = result.substring(index + 1);//分割出路径
-					if(start.equals("f")) {//前缀为f表示转发
+					//分割出前缀
+					String start = result.substring(0, index);
+					//分割出路径
+					String path = result.substring(index + 1);
+					//前缀为f表示转发
+					if(start.equals("f")) {
 						request.getRequestDispatcher(path).forward(request, response);
-					} else if(start.equals("r")) {//前缀为r表示重定向
+						//前缀为r表示重定向
+					} else if(start.equals("r")) {
 						response.sendRedirect(request.getContextPath() + path);
 					}
 				}

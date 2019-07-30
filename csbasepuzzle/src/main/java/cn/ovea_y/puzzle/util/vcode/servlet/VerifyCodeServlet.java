@@ -1,6 +1,7 @@
 package cn.ovea_y.puzzle.util.vcode.servlet;
 
-import cn.oveay.classdesign.util.vcode.utils.VerifyCode;
+
+import cn.ovea_y.puzzle.util.vcode.utils.VerifyCode;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
