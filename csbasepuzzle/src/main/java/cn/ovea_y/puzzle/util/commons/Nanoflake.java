@@ -71,26 +71,31 @@ public class Nanoflake {
     }
 
     /**
-     * 获取当前纳秒时间
+     * 获取当前纳秒时间，最小粒度加锁，比synchronized快至少10%。
+     * 之所以要同步，是因为并发System.nanoTime()一定不同，
+     * 但是多核CPU并行System.nanoTime()的值有极小的概率相同
      * @return
      */
     private static long getNanoTime(){
-        return System.nanoTime();
+        try {
+            semaphore.acquire(1);
+            return System.nanoTime();
+        } catch (InterruptedException e) {
+            System.err.println("异常中断!");
+            return -1;
+        }finally {
+            semaphore.release(1);
+        }
+
     }
 
     /**
-     * 获取基于纳秒的数字分布式ID，最小粒度加锁，比synchronized快至少5%
+     * 获取基于纳秒的数字分布式ID
      * @return
      */
     public static long getNanoflakeNum(){
         long temp = 0;
-        try {
-            semaphore.acquire(1);
-        } catch (InterruptedException e) {
-            System.err.println("异常中断!");
-        }
         temp |= getNanoTime() - initialTime;
-        semaphore.release(1);
         workerID = workerID << workerMoveBit;
         temp |= workerID;
         return temp;
