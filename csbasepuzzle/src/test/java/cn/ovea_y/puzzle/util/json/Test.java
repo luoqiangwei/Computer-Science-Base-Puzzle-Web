@@ -10,9 +10,12 @@ public class Test {
     @org.junit.Test
     public void fun() throws JSONExption {
         User user = new User("OVEA", new Car("OX", "RED"));
-        Map map = new HashMap();
+        HashMap map = new HashMap();
+        Map map1 = new HashMap();
         map.put("String", new Car("BOX", "black"));
-        map.put(1, 34);
+        map.put(1, new int[][]{new int[]{12, 34,656 ,34}, new int[]{1}});
+        user.setCars(new Car[][]{new Car[]{new Car("AA", "AAC"), new Car("BB", "BBC")}, new Car[]{}});
+        user.setArray(new Object[]{map});
         user.setId(map);
         System.out.println(JSON.objectToJson(user));
     }

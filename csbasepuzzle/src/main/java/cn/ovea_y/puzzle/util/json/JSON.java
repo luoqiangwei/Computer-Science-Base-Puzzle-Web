@@ -7,8 +7,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
+/**
+ * @author Qiangwei Luo
+ */
 public class JSON {
-//    数组请用包装类型！ 绝对不用使用原生类型！
     public static String objectToJson(Object object) throws JSONExption {
         Class clazz = object.getClass();
         Method[] methods = clazz.getMethods();
@@ -34,29 +36,25 @@ public class JSON {
                     }
                     try {
                         System.out.println(method.getReturnType().getName());
-                        if(method.getReturnType().getName().equals("java.lang.Integer") || method.getReturnType().getName().equals("int") || method.getReturnType().getName().equals("java.lang.Boolean") || method.getReturnType().getName().equals("boolean") || method.getReturnType().getName().equals("java.lang.Long") || method.getReturnType().getName().equals("long") || method.getReturnType().getName().equals("java.lang.Float") || method.getReturnType().getName().equals("float") || method.getReturnType().getName().equals("java.lang.Double") || method.getReturnType().getName().equals("double") || method.getReturnType().getName().equals("java.lang.Byte") || method.getReturnType().getName().equals("byte")){
+                        if(method.getReturnType().getName().equals("java.lang.Integer") || method.getReturnType().getName().equals("int") || method.getReturnType().getName().equals("java.lang.Boolean") || method.getReturnType().getName().equals("boolean") || method.getReturnType().getName().equals("java.lang.Long") || method.getReturnType().getName().equals("long") || method.getReturnType().getName().equals("java.lang.Float") || method.getReturnType().getName().equals("float") || method.getReturnType().getName().equals("java.lang.Double") || method.getReturnType().getName().equals("double") || method.getReturnType().getName().equals("java.lang.Byte") || method.getReturnType().getName().equals("byte") || method.getReturnType().getName().equals("java.lang.Short") || method.getReturnType().getName().equals("short")){
                             t.append("\":");
                             t.append(method.invoke(object, null).toString());
-                        }else if(method.getReturnType().getName().equals("java.util.Map")){
+                        }else if(method.getReturnType().getName().contains("java.util.") && method.getReturnType().getName().contains("Map")){
                             Map map = (Map) method.invoke(object, null);
-                            t.append("\":{");
-                            Set key = map.keySet();
-                            for(Object item : key){
-                                t.append("\"" + item + "\":");
-                                Object oo = map.get(item);
-                                if(!oo.getClass().getName().contains("java.lang")){
-                                    t.append(objectToJson(oo));
-                                }else{
-                                    t.append(oo);
-                                }
-                                t.append(",");
-                            }
-                            t.setCharAt(t.length() - 1, '}');
-                        }else if(method.getReturnType().isArray()){
-//                            Object[] objects = (Object[]) method.invoke(object, null);
                             t.append("\":");
-                            t.append(Arrays.deepToString((Object[]) method.invoke(object, null)));
-                        }else if(!method.getReturnType().getName().contains("java.lang")){
+                            deepFindMap(t, map);
+                        }else if(method.getReturnType().getName().contains("java.util.") && method.getReturnType().getName().contains("Set")){
+                            Set set = (Set) method.invoke(object, null);
+                            t.append("\":");
+                            deepFindSet(t, set);
+                        }else if(method.getReturnType().getName().contains("java.util.") && method.getReturnType().getName().contains("List")){
+                            List l = (List) method.invoke(object, null);
+                            t.append("\":");
+                            deepFindList(t, l);
+                        }else if(method.getReturnType().isArray()){
+                            t.append("\":");
+                            deepFindArray(t, method.invoke(object, null));
+                        }else if(!(method.getReturnType().getName().indexOf("java") == 0)){
                             t.append("\":");
                             t.append(objectToJson(method.invoke(object, null)));
                         }else{
@@ -65,8 +63,12 @@ public class JSON {
                             t.append("\"");
                         }
                     } catch (NullPointerException e){
-                        t.setCharAt(t.length() - 1, 'n');
-                        t.append("ull");
+                        if(t.charAt(t.length() - 1) == '"') {
+                            t.setCharAt(t.length() - 1, 'n');
+                            t.append("ull");
+                        }else {
+                            t.append("null");
+                        }
                     } catch (Exception e){
                         throw new JSONExption(e.getMessage());
                     }
@@ -88,8 +90,12 @@ public class JSON {
                         t.append(method.invoke(object, null).toString());
                         t.append("\"");
                     } catch (NullPointerException e){
-                        t.setCharAt(t.length() - 1, 'n');
-                        t.append("ull");
+                        if(t.charAt(t.length() - 1) == '"') {
+                            t.setCharAt(t.length() - 1, 'n');
+                            t.append("ull");
+                        }else {
+                            t.append("null");
+                        }
                     } catch (Exception e){
                         throw new JSONExption(e.getMessage());
                     }
@@ -104,6 +110,128 @@ public class JSON {
             stringBuilder.append("}");
         }
         return stringBuilder.toString();
+    }
+
+    private static void deepFindSet(StringBuilder t, Set set){
+
+    }
+
+    private static void deepFindList(StringBuilder t, List list){
+
+    }
+
+    private static void deepFindMap(StringBuilder t, Map map) throws JSONExption {
+        Set key = map.keySet();
+        t.append("{");
+        for(Object item : key){
+            if(item.getClass().getName().equals("java.lang.Integer") || item.getClass().getName().equals("int") || item.getClass().getName().equals("java.lang.Boolean") || item.getClass().getName().equals("boolean") || item.getClass().getName().equals("java.lang.Long") || item.getClass().getName().equals("long") || item.getClass().getName().equals("java.lang.Float") || item.getClass().getName().equals("float") || item.getClass().equals("java.lang.Double") || item.getClass().getName().equals("double") || item.getClass().getName().equals("java.lang.Byte") || item.getClass().getName().equals("byte") || item.getClass().getName().equals("java.lang.Short") || item.getClass().getName().equals("short")){
+                t.append(item + "=");
+            }else if(item instanceof Map){
+                deepFindMap(t, map);
+                t.append("=");
+            }else if(item.getClass().isArray()){
+                deepFindArray(t, item);
+                t.append("=");
+            }else if(item instanceof Set){
+                deepFindSet(t, (Set) item);
+                t.append("=");
+            }else if(item instanceof List){
+                deepFindList(t, (List) item);
+                t.append("=");
+            }else if(item.getClass().getName().indexOf("java") == 0){
+                t.append("\"" + item + "\"=");
+            }else {
+                t.append(objectToJson(item));
+                t.append("=");
+            }
+            Object oo = map.get(item);
+            if(oo.getClass().getName().indexOf("java") == 0){
+                if(oo instanceof Map){
+                    deepFindMap(t, (Map) oo);
+                }else if(item instanceof Set){
+                    deepFindSet(t, (Set) item);
+                }else if(item instanceof List){
+                    deepFindList(t, (List) item);
+                }else {
+                    t.append(oo);
+                }
+            }else if(oo.getClass().isArray()){
+                deepFindArray(t, oo);
+            }else{
+                t.append(objectToJson(oo));
+            }
+            t.append(",");
+        }
+        if(t.charAt(t.length() - 1) == '{') {
+            t.append('}');
+        }else {
+            t.setCharAt(t.length() - 1, '}');
+        }
+    }
+
+    private static void deepFindArray(StringBuilder stringBuilder, Object object) throws JSONExption {
+//        System.out.println(object.getClass().getName());
+        if(object.getClass().getName().contains("[[")){
+            Object[] objects = (Object[]) object;
+            stringBuilder.append("[");
+            for(Object o : objects){
+                deepFindArray(stringBuilder, o);
+                stringBuilder.append(",");
+            }
+            if(stringBuilder.charAt(stringBuilder.length() - 1) == '[') {
+                stringBuilder.append(']');
+            }else {
+                stringBuilder.setCharAt(stringBuilder.length() - 1, ']');
+            }
+
+        }else if(!object.getClass().getName().contains("[[") && object.getClass().getName().contains("[")){
+            switch (object.getClass().getName()){
+                case "[B":
+                    stringBuilder.append(Arrays.toString((byte[])object));
+                    break;
+                case "[C":
+                    stringBuilder.append(Arrays.toString((char[])object));
+                    break;
+                case "[S":
+                    stringBuilder.append(Arrays.toString((short[])object));
+                    break;
+                case "[I":
+                    stringBuilder.append(Arrays.toString((int[])object));
+                    break;
+                case "[L":
+                    stringBuilder.append(Arrays.toString((long[])object));
+                    break;
+                case "[F":
+                    stringBuilder.append(Arrays.toString((float[])object));
+                    break;
+                case "[D":
+                    stringBuilder.append(Arrays.toString((double[])object));
+                    break;
+                case "[Z":
+                    stringBuilder.append(Arrays.toString((boolean[])object));
+                    break;
+                default:
+                    if(object.getClass().getName().contains("[Ljava.lang") && !object.getClass().getName().contains("Object")){
+                        stringBuilder.append(Arrays.toString((Object[]) object));
+                    }else{
+                        stringBuilder.append('[');
+                        for(Object o : (Object[]) object){
+                            if(o instanceof Map){
+                                deepFindMap(stringBuilder, (Map) o);
+                            }else {
+                                stringBuilder.append(objectToJson(o));
+                                stringBuilder.append(",");
+                            }
+                        }
+                        if(stringBuilder.charAt(stringBuilder.length() - 1) == '[') {
+                            stringBuilder.append(']');
+                        }else {
+                            stringBuilder.setCharAt(stringBuilder.length() - 1, ']');
+                        }
+                    }
+
+            }
+        }
     }
 
     private static String findField(List<String> list, String x){

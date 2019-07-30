@@ -20,9 +20,9 @@
 * Build Tool Class
 
   * Build Data Access Object auto build tool
-  * Build service auto build tool
-  * Build automatic injection tool
-  * Build inversion of control Tool
+  * ~~Build service auto build tool~~
+  * ~~Build automatic injection tool~~
+  * ~~Build inversion of control Tool~~
   * Build Anti-theft Chain Tool ✅
   * Build Heartbeat Tool ✅
   * Build encryption Tool ✅
