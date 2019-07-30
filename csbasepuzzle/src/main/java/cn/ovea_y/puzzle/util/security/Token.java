@@ -21,11 +21,17 @@ public class Token {
         timeout = Integer.parseInt(properties.get("token-timeout").toString());
     }
 
+    /**
+     * 检查form的token是否正确，用 + "⚪"来标识时fOrm表单的验证信息
+     * @param userId
+     * @param key
+     * @return
+     */
     public static boolean checkToken(String userId, String key){
-        return String.valueOf(jedis.get(userId)).equals(key);
+        return String.valueOf(jedis.get(userId) + "⚪").equals(key);
     }
     public static void addToken(String userId, String key){
-        jedis.set(userId, key);
+        jedis.set(userId + "⚪", key);
         jedis.expire(userId, timeout);
     }
 }

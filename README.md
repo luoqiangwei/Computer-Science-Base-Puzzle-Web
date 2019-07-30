@@ -30,16 +30,13 @@
     * RSA ✅
     * SHA ✅
     * MD5 ✅
-  * Build token Tool
+  * Build token Tool ✅
   * Build Mail Tool ✅
-  
-* Build Nanoflake builder ✅
-  
-* Build Charset transfer Tool ✅
-  
-* Build Verify Code builder ✅
-  
-* Build JSON builder ✅
+  * Build Nanoflake builder ✅
+  * Build Charset transfer Tool ✅
+  * Build Verify Code builder ✅
+  * Build JSON builder ✅
+  * Short Message Verification Module  ✅
   
   
 
