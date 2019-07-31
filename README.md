@@ -17,10 +17,10 @@
 
 * Build Tool Class
 
-  * Build Data Access Object auto build tool 🕙
+  * Build Data Access Object auto build tool 🕚
   * Build service auto build tool 🕙
-  * Build automatic injection tool 🕙
-  * Build inversion of control Tool 🕙
+  * Build automatic injection tool 🕣
+  * Build inversion of control Tool 🕣
   * Build Anti-theft Chain Tool ✅
   * Build Heartbeat Tool ✅
   * Build encryption Tool ✅
@@ -63,9 +63,14 @@
 
 
 
+## Modular Progress
+
+* LOGIN
+* REGISTER
 
 
-## database structure
+
+## Database Structure
 
 ![数据库结构](./README_PIC/database.png)
 

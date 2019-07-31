@@ -1,0 +1,38 @@
+.TMTitle h2{
+    font-size: 20px;
+}
+
+.sect ul li{
+    /*将li转换成行内元素*/
+    /*display: inline;*/
+}
+
+.sect ul li a{
+    color: #721c24;
+}
+
+.sect{
+    float: left;
+    width: 15%;
+}
+
+.show{
+    float: right;
+    width: 82%;
+}
+
+.add{
+    float: right;
+    width: 82%;
+    display: none;
+}
+
+.modify{
+    float: right;
+    width: 82%;
+    display: none;
+}
+
+.find{
+    display: none;
+}
