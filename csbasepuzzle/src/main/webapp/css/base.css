@@ -6,6 +6,7 @@ html, body{
 
 body{
     display: flex;
+    height: 100%;
     flex-direction: column;
 }
 
@@ -20,6 +21,10 @@ header{
 
 footer{
     flex: 0 0 auto;
+}
+
+.footer{
+    padding: 1% 1% 1% 1%;
 }
 
 .fp p{
