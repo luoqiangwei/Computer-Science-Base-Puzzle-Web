@@ -6,6 +6,7 @@ import cn.ovea_y.puzzle.util.commons.exception.NanoflakeException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author QiangweiLuo
@@ -14,8 +15,6 @@ import java.util.concurrent.Semaphore;
 public class Nanoflake {
     // 使用信号量来进行加锁
     private static Semaphore semaphore = new Semaphore(1);
-    // 设定一个初始纳秒时间戳
-    private static long initialTime = 1878547820027449L;
     // 设定的机器ID
     private static long workerID = 0;
     // 最大可用的机器ID
@@ -23,33 +22,21 @@ public class Nanoflake {
     // 机器ID偏移bit
     private static long workerMoveBit = 52L;
 
+    private static volatile long currTime;
+
+    private static volatile long currNum = 0;
+
     static {
         // 加载配置文件
         Properties props = new Properties();
         try {
-            props.load(Nanoflake.class.getClassLoader().getResourceAsStream("/config/config.properties"));
+            props.load(Nanoflake.class.getClassLoader().getResourceAsStream("config/config.properties"));
         } catch (IOException e) {
             throw new RuntimeException("配置文件读取失败");
         }
         if(props.getProperty("machine_id") != null){
             workerID = Integer.parseInt(props.getProperty("machine_id"));
         }
-    }
-
-    /**
-     * 获取初始化时间
-     * @return
-     */
-    public long getInitialTime() {
-        return initialTime;
-    }
-
-    /**
-     *
-     * @param initialTime
-     */
-    public void setInitialTime(long initialTime) {
-        this.initialTime = initialTime;
     }
 
     /**
@@ -71,15 +58,20 @@ public class Nanoflake {
     }
 
     /**
-     * 获取当前纳秒时间，最小粒度加锁，比synchronized快至少10%。
-     * 之所以要同步，是因为并发System.nanoTime()一定不同，
-     * 但是多核CPU并行System.nanoTime()的值有极小的概率相同
+     * 获取基于纳秒的数字分布式ID
      * @return
      */
-    private static long getNanoTime(){
+    public static long getNanoflakeNum(){
+        long temp = 0;
+        long currtime = System.currentTimeMillis();
         try {
             semaphore.acquire(1);
-            return System.nanoTime();
+            if(currtime == currTime){
+                ++currNum;
+            }else{
+                currNum = 0;
+                currTime = currtime;
+            }
         } catch (InterruptedException e) {
             System.err.println("异常中断!");
             return -1;
@@ -87,17 +79,13 @@ public class Nanoflake {
             semaphore.release(1);
         }
 
-    }
-
-    /**
-     * 获取基于纳秒的数字分布式ID
-     * @return
-     */
-    public static long getNanoflakeNum(){
-        long temp = 0;
-        temp |= getNanoTime() - initialTime;
+        int length = Long.toBinaryString(currtime).length();
+        temp |= currtime;
         workerID = workerID << workerMoveBit;
         temp |= workerID;
+        long len = (long) Math.pow(2, workerMoveBit - length);
+        temp |= (currNum % len) << length;
+        System.out.println(currtime + " " + workerID + " " + currNum);
         return temp;
     }
 
