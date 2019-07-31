@@ -66,7 +66,7 @@
 ## Modular Progress
 
 * LOGIN
-* REGISTER
+* REGISTER ✅
 
 
 
