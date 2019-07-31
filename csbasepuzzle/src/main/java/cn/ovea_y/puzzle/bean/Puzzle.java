@@ -12,7 +12,7 @@ public class Puzzle {
     private String id;
     private Character type;
     private String subject;
-    private Map<String, PuzzleItem> options;
+    private List<PuzzleItem> options;
     private Integer difficulty;
 
     @Override
@@ -50,11 +50,11 @@ public class Puzzle {
         this.subject = subject;
     }
 
-    public Map<String, PuzzleItem> getOptions() {
+    public List<PuzzleItem> getOptions() {
         return options;
     }
 
-    public void setOptions(Map<String, PuzzleItem> options) {
+    public void setOptions(List<PuzzleItem> options) {
         this.options = options;
     }
 
@@ -66,7 +66,7 @@ public class Puzzle {
         this.difficulty = difficulty;
     }
 
-    public Puzzle(String id, Character type, String subject, Map<String, PuzzleItem> options, Integer difficulty) {
+    public Puzzle(String id, Character type, String subject, List<PuzzleItem> options, Integer difficulty) {
         this.id = id;
         this.type = type;
         this.subject = subject;

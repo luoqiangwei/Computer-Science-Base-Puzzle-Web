@@ -2,12 +2,13 @@ package cn.ovea_y.puzzle.bean;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Result {
     private String id;
     private String user_id;
-    private Map<String, ResultItem> answers;
+    private List<ResultItem> answers;
     private Date resultDate;
     private Double grade;
 
@@ -38,11 +39,11 @@ public class Result {
         this.user_id = user_id;
     }
 
-    public Map<String, ResultItem> getAnswers() {
+    public List<ResultItem> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(Map<String, ResultItem> answers) {
+    public void setAnswers(List<ResultItem> answers) {
         this.answers = answers;
     }
 

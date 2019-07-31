@@ -12,8 +12,30 @@ public class User {
     private Date createDate;
     private String realName;
     private String idCard;
+    private Boolean isAdmin;
+    private Boolean isEffective;
 
     public User() {
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
+    }
+
+    public Boolean getEffective() {
+        return isEffective;
+    }
+
+    public void setEffective(Boolean effective) {
+        isEffective = effective;
     }
 
     @Override
