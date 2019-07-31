@@ -1,9 +1,6 @@
 package cn.ovea_y.puzzle.util.json;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class User {
     private String name;
@@ -13,6 +10,15 @@ public class User {
     private Car[][] cars;
     private Set set;
     private List list;
+    private Date date;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public Set getSet() {
         return set;

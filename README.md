@@ -4,8 +4,6 @@
 
 
 
-
-
 ## Development Environment
 
 * Maven 3.6.0
@@ -19,10 +17,10 @@
 
 * Build Tool Class
 
-  * ~~Build Data Access Object auto build tool~~
-  * ~~Build service auto build tool~~
-  * ~~Build automatic injection tool~~
-  * ~~Build inversion of control Tool~~
+  * Build Data Access Object auto build tool 🕙
+  * Build service auto build tool 🕙
+  * Build automatic injection tool 🕙
+  * Build inversion of control Tool 🕙
   * Build Anti-theft Chain Tool ✅
   * Build Heartbeat Tool ✅
   * Build encryption Tool ✅
@@ -62,3 +60,13 @@
     * Max QPS: ?
     * Average CPU use: ?
     * Average Memory use: ?
+
+
+
+
+
+## database structure
+
+![数据库结构](./README_PIC/database.png)
+
+> temporary database structure

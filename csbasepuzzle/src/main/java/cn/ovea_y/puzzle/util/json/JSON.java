@@ -1,6 +1,7 @@
 package cn.ovea_y.puzzle.util.json;
 
 
+import cn.ovea_y.puzzle.util.commons.DateFormatter;
 import cn.ovea_y.puzzle.util.json.exption.JSONExption;
 
 import java.lang.reflect.Field;
@@ -53,6 +54,10 @@ public class JSON {
                         }else if(method.getReturnType().isArray()){
                             t.append("\":");
                             deepFindArray(t, method.invoke(object, null));
+                        }else if(method.getReturnType().getName().contains("java.util.") && method.getReturnType().getName().contains("Date")){
+                            t.append("\":\"");
+                            t.append(DateFormatter.formatToDate(new Date().getTime()));
+                            t.append("\"");
                         }else if(!(method.getReturnType().getName().indexOf("java") == 0)){
                             t.append("\":");
                             t.append(objectToJson(method.invoke(object, null)));
@@ -123,6 +128,8 @@ public class JSON {
                     deepFindMap(t, (Map) o);
                 }else if(o instanceof List){
                     deepFindList(t, (List) o);
+                }else if(o instanceof Date){
+                    t.append(DateFormatter.formatToDate(new Date().getTime()));
                 }else if(o.getClass().getName().indexOf("java") == 0 && !o.getClass().getName().contains("Object")){
                     t.append(o);
                     t.append(',');
@@ -153,6 +160,8 @@ public class JSON {
                     deepFindMap(t, (Map) o);
                 }else if(o instanceof List){
                     deepFindList(t, (List) o);
+                }else if(o instanceof Date){
+                    t.append(DateFormatter.formatToDate(new Date().getTime()));
                 }else if(o.getClass().getName().indexOf("java") == 0 && !o.getClass().getName().contains("Object")){
                     t.append(o);
                     t.append(',');
@@ -189,6 +198,8 @@ public class JSON {
             }else if(item instanceof List){
                 deepFindList(t, (List) item);
                 t.append(":");
+            }else if(item instanceof Date){
+                t.append(DateFormatter.formatToDate(new Date().getTime()));
             }else if(item.getClass().getName().indexOf("java") == 0){
                 t.append("\"" + item + "\":");
             }else {
@@ -205,6 +216,8 @@ public class JSON {
                     deepFindList(t, (List) item);
                 }else if(item.getClass().getName().equals("java.lang.Integer") || item.getClass().getName().equals("int") || item.getClass().getName().equals("java.lang.Boolean") || item.getClass().getName().equals("boolean") || item.getClass().getName().equals("java.lang.Long") || item.getClass().getName().equals("long") || item.getClass().getName().equals("java.lang.Float") || item.getClass().getName().equals("float") || item.getClass().equals("java.lang.Double") || item.getClass().getName().equals("double") || item.getClass().getName().equals("java.lang.Byte") || item.getClass().getName().equals("byte") || item.getClass().getName().equals("java.lang.Short") || item.getClass().getName().equals("short")){
                     t.append(oo);
+                }else if(item instanceof Date){
+                    t.append(DateFormatter.formatToDate(new Date().getTime()));
                 }else{
                     t.append("\"" + oo + "\"");
                 }
@@ -274,6 +287,8 @@ public class JSON {
                                 deepFindSet(stringBuilder, (Set) o);
                             }else if(o instanceof List){
                                 deepFindList(stringBuilder, (List) o);
+                            }else if(o instanceof Date){
+                                stringBuilder.append(DateFormatter.formatToDate(new Date().getTime()));
                             }else {
                                 stringBuilder.append(objectToJson(o));
                                 stringBuilder.append(",");

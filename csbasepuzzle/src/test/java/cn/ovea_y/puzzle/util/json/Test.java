@@ -20,6 +20,7 @@ public class Test {
         set.add(23);
 //        set.add(map);
         user.setSet(set);
+        user.setDate(new Date());
 //        User user1 = new User(null, null);
 //        System.out.println(JSON.objectToJson(user1));
         System.out.println(JSON.objectToJson(user));
