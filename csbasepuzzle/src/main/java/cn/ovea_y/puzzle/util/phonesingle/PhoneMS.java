@@ -32,8 +32,8 @@ public class PhoneMS {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        appid = Integer.parseInt(properties.get("appkey").toString());
-        appkey = properties.get("appid").toString();
+        appid = Integer.parseInt(properties.get("appid").toString());
+        appkey = properties.get("appkey").toString();
         templateId = Integer.parseInt(properties.get("templateId").toString());
         smsSign = properties.get("smsSign").toString();
     }

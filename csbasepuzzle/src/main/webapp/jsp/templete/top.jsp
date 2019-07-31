@@ -11,7 +11,7 @@
         </div>
         <div class="hmenu">
             <c:if test="${userInfo != null}">
-                <li>${userInfo.email }</li>
+                <li>${userInfo.nickname }</li>
                 <li><a href="/Center">个人中心</a></li>
                 <li><a href="/Login?method=cancellation">注销</a></li>
             </c:if>

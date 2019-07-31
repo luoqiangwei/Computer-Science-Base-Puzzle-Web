@@ -104,7 +104,7 @@ public class RegisterServlet extends AutoFunctionServlet {
         User user = new User();
         user.setPhone(phone);
         user.setPassword(password);
-        if(registerService.check(user)){
+        if(!registerService.check(user)){
             req.setAttribute("form", "该号码已被使用");
             reSet(req, phone, password);
             return "/Register?method=index";

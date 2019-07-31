@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
     public void insert(User user) {
         String sql = "insert into user values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            queryRunner.update(sql, new Object[]{user.getId(), user.getNickname(), user.getPhone(), user.getPassword(), user.getGender(), user.getAvatar(), user.getCreateDate(), user.getCreateDate(), user.getCreateDate(), user.getRealName(), user.getIdCard(), user.getAdmin(), user.getEffective()});
+            queryRunner.update(sql, new Object[]{user.getId(), user.getNickname(), user.getPhone(), user.getPassword(), user.getGender(), user.getAvatar(), user.getCreateDate(), user.getRealName(), user.getIdCard(), user.getAdmin(), user.getEffective()});
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

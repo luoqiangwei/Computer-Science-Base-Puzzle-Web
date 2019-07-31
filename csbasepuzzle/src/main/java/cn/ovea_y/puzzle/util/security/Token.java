@@ -27,11 +27,11 @@ public class Token {
      * @param key
      * @return
      */
-    public static boolean checkToken(String userId, String key){
-        return String.valueOf(jedis.get(userId) + "⚪").equals(key);
+    public static synchronized boolean checkToken(String userId, String key){
+        return String.valueOf(jedis.get(userId + "O")).equals(key);
     }
-    public static void addToken(String userId, String key){
-        jedis.set(userId + "⚪", key);
+    public static synchronized void addToken(String userId, String key){
+        jedis.set(userId + "O", key);
         jedis.expire(userId, timeout);
     }
 }

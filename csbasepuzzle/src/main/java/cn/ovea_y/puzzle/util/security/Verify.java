@@ -27,10 +27,11 @@ public class Verify {
      * @param key
      * @return
      */
-    public static boolean checkVerify(String userId, String key){
-        return String.valueOf(jedis.get(userId) + "P").equals(key);
+    public static synchronized boolean checkVerify(String userId, String key){
+        return String.valueOf(JedisPoolUtils.getJedis().get(userId + "P")).equals(key);
     }
-    public static void addVerify(String userId, String key){
+    public static synchronized void addVerify(String userId, String key){
+        Jedis jedis = JedisPoolUtils.getJedis();
         jedis.set(userId + "P", key);
         jedis.expire(userId, timeout);
     }
