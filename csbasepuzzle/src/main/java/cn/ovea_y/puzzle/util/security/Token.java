@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class Token {
+    private static Jedis jedis = JedisPoolUtils.getJedis();
     private static int timeout;
     static {
         InputStream inStream = Token.class.getClassLoader().getResourceAsStream("config/config.properties");
@@ -27,18 +28,10 @@ public class Token {
      * @return
      */
     public static boolean checkToken(String userId, String key){
-        Jedis jedis = JedisPoolUtils.getJedis();
-        try {
-            return String.valueOf(jedis.get(userId + "O")).equals(key);
-        }finally {
-            jedis.close();
-        }
-
+        return String.valueOf(jedis.get(userId + "O")).equals(key);
     }
     public static void addToken(String userId, String key){
-        Jedis jedis = JedisPoolUtils.getJedis();
         jedis.set(userId + "O", key);
         jedis.expire(userId, timeout);
-        jedis.close();
     }
 }
