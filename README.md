@@ -60,6 +60,8 @@
     * Max QPS: ?
     * Average CPU use: ?
     * Average Memory use: ?
+  * Redis Test
+    * Max QPS:  8013
 
 
 

@@ -85,7 +85,6 @@ public class Nanoflake {
         temp |= workerID;
         long len = (long) Math.pow(2, workerMoveBit - length);
         temp |= (currNum % len) << length;
-        System.out.println(currtime + " " + workerID + " " + currNum);
         return temp;
     }
 
