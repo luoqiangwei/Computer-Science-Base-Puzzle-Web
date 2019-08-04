@@ -1,6 +1,5 @@
 package cn.oveay.cspuzzle.util.phonesingle;
 
-import cn.ovea_y.puzzle.util.cache.JedisPoolUtils;
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.SmsSingleSenderResult;
 import com.github.qcloudsms.httpclient.HTTPException;
@@ -25,7 +24,7 @@ public class PhoneMS {
     private static Random random = new Random();
 
     static {
-        InputStream inStream = JedisPoolUtils.class.getClassLoader().getResourceAsStream("config/config.properties");
+        InputStream inStream = PhoneMS.class.getClassLoader().getResourceAsStream("config/config.properties");
         Properties properties = new Properties();
         try {
             properties.load(inStream);

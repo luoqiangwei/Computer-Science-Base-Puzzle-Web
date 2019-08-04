@@ -1,13 +1,17 @@
 package cn.oveay.cspuzzle.web.servlet;
 
-import cn.ovea_y.puzzle.bean.User;
-import cn.ovea_y.puzzle.service.RegisterService;
-import cn.ovea_y.puzzle.service.impl.RegisterServiceImpl;
-import cn.ovea_y.puzzle.util.commons.Nanoflake;
-import cn.ovea_y.puzzle.util.phonesingle.PhoneMS;
-import cn.ovea_y.puzzle.util.security.Token;
-import cn.ovea_y.puzzle.util.security.Verify;
-import cn.ovea_y.puzzle.util.servlet.AutoFunctionServlet;
+import cn.oveay.cspuzzle.bean.User;
+import cn.oveay.cspuzzle.service.RegisterService;
+import cn.oveay.cspuzzle.service.impl.RegisterServiceImpl;
+import cn.oveay.cspuzzle.util.commons.Nanoflake;
+import cn.oveay.cspuzzle.util.phonesingle.PhoneMS;
+import cn.oveay.cspuzzle.util.security.Token;
+import cn.oveay.cspuzzle.util.security.Verify;
+import cn.oveay.cspuzzle.util.servlet.AutoFunctionServlet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,27 +19,35 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/Register")
+@Controller
+@RequestMapping("/register")
 public class RegisterServlet extends AutoFunctionServlet {
-    private RegisterService registerService = new RegisterServiceImpl();
+    @Autowired
+    private RegisterService registerService;
+    @Autowired
+    private Verify verifyService;
+    @Autowired
+    private Token tokenService;
 
-    public String index(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @RequestMapping("/index")
+    public String index(Model model,  HttpServletRequest request){
         String token = Nanoflake.getNanoflake();
-        Token.addToken(req.getSession().getId(), token);
-        req.setAttribute("token", token);
+        tokenService.addToken(request.getSession().getId(), token);
+        model.addAttribute("token", token);
         return "jsp/register.jsp";
     }
 
-    public String verify(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @RequestMapping("/verify")
+    public String verify(Model model,  HttpServletRequest request) throws ServletException, IOException {
         String token = Nanoflake.getNanoflake();
-        Token.addToken(req.getSession().getId(), token);
-        req.setAttribute("token", token);
+        tokenService.addToken(request.getSession().getId(), token);
+        model.addAttribute("token", token);
         return "jsp/verify.jsp";
     }
 
     public String check(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String token = req.getParameter("token");
-        if(!Token.checkToken(req.getSession().getId(), token)){
+        if(!tokenService.checkToken(req.getSession().getId(), token)){
             req.setAttribute("form", "您的签名不正确，表单失效");
             return "/Register?method=verify";
         }
@@ -45,7 +57,7 @@ public class RegisterServlet extends AutoFunctionServlet {
             return "/Register?method=verify";
         }
         String code = req.getParameter("verifycode");
-        if(!Verify.checkVerify(req.getSession().getId(), code)){
+        if(!verifyService.checkVerify(req.getSession().getId(), code)){
             req.setAttribute("form", "短信验证码错误");
             return "/Register?method=verify";
         }
@@ -95,7 +107,7 @@ public class RegisterServlet extends AutoFunctionServlet {
             return  "f:/Register?method=index";
         }
 
-        if(!Token.checkToken(req.getSession().getId(), token)){
+        if(!tokenService.checkToken(req.getSession().getId(), token)){
             req.setAttribute("form", "您的签名不正确，表单失效");
             reSet(req, phone, password);
             return "/Register?method=index";
@@ -111,7 +123,7 @@ public class RegisterServlet extends AutoFunctionServlet {
         }
 
         String code = PhoneMS.sendMsg(phone);
-        Verify.addVerify(req.getSession().getId(), code);
+        verifyService.addVerify(req.getSession().getId(), code);
 
         req.getSession().setAttribute("ruser", user);
         return "f:/Register?method=verify";

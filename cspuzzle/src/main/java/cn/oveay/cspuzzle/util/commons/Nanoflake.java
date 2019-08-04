@@ -1,7 +1,6 @@
 package cn.oveay.cspuzzle.util.commons;
 
-
-import cn.ovea_y.puzzle.util.commons.exception.NanoflakeException;
+import cn.oveay.cspuzzle.util.commons.exception.NanoflakeException;
 
 import java.io.IOException;
 import java.util.Properties;

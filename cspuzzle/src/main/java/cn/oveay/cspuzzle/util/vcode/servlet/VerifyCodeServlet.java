@@ -1,7 +1,8 @@
 package cn.oveay.cspuzzle.util.vcode.servlet;
 
 
-import cn.ovea_y.puzzle.util.vcode.utils.VerifyCode;
+
+import cn.oveay.cspuzzle.util.vcode.utils.VerifyCode;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

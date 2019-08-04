@@ -1,6 +1,8 @@
 package cn.oveay.cspuzzle.web.servlet;
 
-import cn.ovea_y.puzzle.util.servlet.AutoFunctionServlet;
+import cn.oveay.cspuzzle.util.servlet.AutoFunctionServlet;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,9 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/Login")
+@Controller
+@RequestMapping("/login")
 public class LoginServlet extends AutoFunctionServlet {
-    public String index(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @RequestMapping("/index")
+    public String index(){
         return null;
     }
 }

@@ -1,16 +1,20 @@
 package cn.oveay.cspuzzle.util.security;
 
-import cn.ovea_y.puzzle.util.cache.JedisPoolUtils;
-import redis.clients.jedis.Jedis;
+import cn.oveay.cspuzzle.service.RedisService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+
+@Service
 public class Verify {
-    private static Jedis jedis = JedisPoolUtils.getJedis();
-    private static int timeout;
-    static {
+    @Autowired
+    private RedisService redisService;
+    private Long timeout;
+    {
         InputStream inStream = Token.class.getClassLoader().getResourceAsStream("config/config.properties");
         Properties properties = new Properties();
         try {
@@ -18,7 +22,7 @@ public class Verify {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        timeout = Integer.parseInt(properties.get("token-timeout").toString());
+        timeout = Long.parseLong(properties.get("token-timeout").toString());
     }
 
     /**
@@ -27,11 +31,10 @@ public class Verify {
      * @param key
      * @return
      */
-    public static synchronized boolean checkVerify(String userId, String key){
-        return String.valueOf(jedis.get(userId + "P")).equals(key);
+    public synchronized boolean checkVerify(String userId, String key){
+        return String.valueOf(redisService.get(userId + "P")).equals(key);
     }
-    public static synchronized void addVerify(String userId, String key){
-        jedis.set(userId + "P", key);
-        jedis.expire(userId, timeout);
+    public synchronized void addVerify(String userId, String key){
+        redisService.set(userId + "P", key, timeout);
     }
 }

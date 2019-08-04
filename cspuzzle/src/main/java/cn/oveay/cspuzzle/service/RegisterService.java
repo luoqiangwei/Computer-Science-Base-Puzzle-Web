@@ -1,6 +1,7 @@
 package cn.oveay.cspuzzle.service;
 
-import cn.ovea_y.puzzle.bean.User;
+import cn.oveay.cspuzzle.bean.User;
+import org.springframework.stereotype.Service;
 
 public interface RegisterService {
     User register(User user);

@@ -1,16 +1,19 @@
 package cn.oveay.cspuzzle.util.security;
 
-import cn.ovea_y.puzzle.util.cache.JedisPoolUtils;
-import redis.clients.jedis.Jedis;
+import cn.oveay.cspuzzle.service.RedisService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+@Service
 public class Token {
-    private static Jedis jedis = JedisPoolUtils.getJedis();
-    private static int timeout;
-    static {
+    @Autowired
+    private RedisService redisService;
+    private Long timeout;
+    {
         InputStream inStream = Token.class.getClassLoader().getResourceAsStream("config/config.properties");
         Properties properties = new Properties();
         try {
@@ -18,7 +21,7 @@ public class Token {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        timeout = Integer.parseInt(properties.get("token-timeout").toString());
+        timeout = Long.parseLong(properties.get("token-timeout").toString());
     }
 
     /**
@@ -27,11 +30,11 @@ public class Token {
      * @param key
      * @return
      */
-    public static boolean checkToken(String userId, String key){
-        return String.valueOf(jedis.get(userId + "O")).equals(key);
+    public synchronized boolean checkToken(String userId, String key){
+        return String.valueOf(redisService.get(userId + "O")).equals(key);
     }
-    public static void addToken(String userId, String key){
-        jedis.set(userId + "O", key);
-        jedis.expire(userId, timeout);
+
+    public synchronized void addToken(String userId, String key){
+        redisService.set(userId + "O", key, timeout);
     }
 }

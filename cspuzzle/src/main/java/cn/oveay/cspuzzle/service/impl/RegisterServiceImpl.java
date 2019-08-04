@@ -1,22 +1,26 @@
 package cn.oveay.cspuzzle.service.impl;
 
-import cn.ovea_y.puzzle.bean.User;
-import cn.ovea_y.puzzle.dao.UserDao;
-import cn.ovea_y.puzzle.dao.impl.UserDaoImpl;
-import cn.ovea_y.puzzle.service.RegisterService;
-import cn.ovea_y.puzzle.util.commons.Nanoflake;
-import cn.ovea_y.puzzle.util.security.SHA;
+import cn.oveay.cspuzzle.bean.User;
+import cn.oveay.cspuzzle.dao.UserDao;
+import cn.oveay.cspuzzle.service.RegisterService;
+import cn.oveay.cspuzzle.util.commons.Nanoflake;
+import cn.oveay.cspuzzle.util.security.SHA;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+@Service
 public class RegisterServiceImpl implements RegisterService {
-    private UserDao userDao = new UserDaoImpl();
+    @Autowired
+    private UserDao userDao;
+
     @Override
     public User register(User user) {
         user.setPassword(SHA.SHA512Encoding(user.getPassword()));
         user.setNickname(user.getPhone());
-        user.setAdmin(true);
-        user.setEffective(true);
+        user.setIsAdmin(true);
+        user.setIsEffective(true);
         user.setId(Nanoflake.getNanoflake());
         user.setAvatar("default.jpg");
         user.setCreateDate(new Date());
