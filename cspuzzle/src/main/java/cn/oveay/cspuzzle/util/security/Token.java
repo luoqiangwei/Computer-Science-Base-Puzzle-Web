@@ -30,11 +30,10 @@ public class Token {
      * @param key
      * @return
      */
-    public synchronized boolean checkToken(String userId, String key){
+    public boolean checkToken(String userId, String key){
         return String.valueOf(redisService.get(userId + "O")).equals(key);
     }
-
-    public synchronized void addToken(String userId, String key){
+    public void addToken(String userId, String key){
         redisService.set(userId + "O", key, timeout);
     }
 }
