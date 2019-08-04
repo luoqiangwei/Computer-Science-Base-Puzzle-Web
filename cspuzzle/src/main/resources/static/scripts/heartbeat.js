@@ -3,7 +3,7 @@ $(function () {
     var tickFun = function () {
         $.ajax({
             type:"post",
-            url:"/HeartBeat?method=tick",
+            url:"/heartbeat/tick",
             data:{"tick" : 1},
             dataType:"json",
             success:function (data) {

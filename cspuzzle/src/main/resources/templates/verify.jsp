@@ -10,7 +10,7 @@
 <html>
 <head>
     <title>计算机科学基础知识答题网 - 验证</title>
-    <jsp:include page="templete/setting.html"></jsp:include>
+    <jsp:include page="templates/setting.html"></jsp:include>
 </head>
 <body>
 <jsp:include page="/jsp/templete/top.jsp"></jsp:include>
@@ -29,6 +29,6 @@
         </form>
     </div>
 </div>
-<jsp:include page="templete/foot.html"></jsp:include>
+<jsp:include page="templates/foot.html"></jsp:include>
 </body>
 </html>

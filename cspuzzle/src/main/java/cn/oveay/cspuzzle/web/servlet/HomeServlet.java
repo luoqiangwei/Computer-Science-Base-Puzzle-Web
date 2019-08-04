@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
-@RequestMapping(("/index"))
-public class IndexServlet extends AutoFunctionServlet {
+@RequestMapping("/home")
+public class HomeServlet extends AutoFunctionServlet {
 
-    @RequestMapping("/index")
+    @RequestMapping("/home")
     public String index(){
-        return "jsp/index.jsp";
+        return "/home";
     }
 }
 

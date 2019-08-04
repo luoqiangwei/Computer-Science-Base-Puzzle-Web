@@ -12,7 +12,7 @@
 <head>
     <title>计算机科学基础知识答题网 - 注册</title>
 <%--    <script src="../scripts/register.js" type="text/javascript"></script>--%>
-    <jsp:include page="templete/setting.html"></jsp:include>
+    <jsp:include page="templates/setting.html"></jsp:include>
     <link rel="stylesheet" href="../css/register.css">
     <script type="text/javascript">
         function reloadCode() {
@@ -49,6 +49,6 @@
         </form>
     </div>
 </div>
-<jsp:include page="templete/foot.html"></jsp:include>
+<jsp:include page="templates/foot.html"></jsp:include>
 </body>
 </html>

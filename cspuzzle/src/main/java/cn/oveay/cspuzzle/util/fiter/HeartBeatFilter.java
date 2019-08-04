@@ -35,7 +35,7 @@ public class HeartBeatFilter extends HttpFilter {
                         if(NewSessionContext.getCreateTime(cookie.getValue()) != null) {
                             if (new Date().getTime() - NewSessionContext.getCreateTime(cookie.getValue()) > timeout) {
                                 NewSessionContext.getSession(cookie.getValue()).invalidate();
-                                ((HttpServletResponse) res).sendRedirect("/index.html");
+                                ((HttpServletResponse) res).sendRedirect("/home.html");
                                 return;
                             } else {
                                 NewSessionContext.resetCreateTime(cookie.getValue());

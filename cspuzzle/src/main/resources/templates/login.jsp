@@ -12,7 +12,7 @@
 <head>
     <title>计算机科学基础知识答题网 - 登录</title>
     <link rel="stylesheet" href="../css/login.css">
-    <jsp:include page="templete/setting.html"></jsp:include>
+    <jsp:include page="templates/setting.html"></jsp:include>
     <script src="../js/login.js" type="text/javascript"></script>
     <script type="text/javascript">
         function reloadCode() {
@@ -22,7 +22,7 @@
     </script>
 </head>
 <body>
-<jsp:include page="templete/top.jsp"></jsp:include>
+<jsp:include page="templates/top.html"></jsp:include>
 <div class="center">
     <h1>登录</h1>
     <div class="form0">
@@ -38,13 +38,11 @@
                 <label for="lpassword">密码<p class="perr">${password}</p></label>
                 <input type="password" name="password" class="form-control" placeholder="Password" id="lpassword" value="${lpassword}"><br>
             </div>
-            <c:if test="${loginError != null}">
-                <div class="form-group">
-                    <label for="lvcode">验证码<p class="perr">${vcode}</p></label>
-                    <input type="text" name="vcode" class="form-control" placeholder="Enter Verify Code" id="lvcode">
-                    <a href="javascript:reloadCode()" ID="ricode"><img id="imageCode" src="<c:url value='/VerifyCodeServlet'></c:url>" alt="Verify Code"></a><br>
-                </div>
-            </c:if>
+            <div th:if="${loginError != null}" class="form-group">
+                <label for="lvcode">验证码<p class="perr">${vcode}</p></label>
+                <input type="text" name="vcode" class="form-control" placeholder="Enter Verify Code" id="lvcode">
+                <a href="javascript:reloadCode()" ID="ricode"><img id="imageCode" src="<c:url value='/VerifyCodeServlet'></c:url>" alt="Verify Code"></a><br>
+            </div>
             <div class="form-group">
                 <br>
                 <input type="submit" class="btn btn-primary" value="提交">
@@ -52,6 +50,6 @@
         </form>
     </div>
 </div>
-<jsp:include page="templete/foot.html"></jsp:include>
+<jsp:include page="templates/foot.html"></jsp:include>
 </body>
 </html>

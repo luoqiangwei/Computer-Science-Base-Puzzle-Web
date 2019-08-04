@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>计算机科学基础知识答题网-主页</title>
+    <div th:replace="/templates/setting :: setting" ></div>
+<!--    <link rel="stylesheet" href="/css/index.css">-->
+</head>
+<body>
+<div th:replace="/templates/top :: top" ></div>
+    <div class="center">
+        <div th:if="${session.userInfo != null}" class="menu">
+            <div th:if="${session.isAdmin != null}">
+                <div class="form-group">
+                    <a href="/jsp/admin/index.jsp"><button class="btn btn-light long">管理页面</button></a>
+                </div>
+            </div>
+            <div th:if="${session.isTea != null}" class="form-group">
+                <a href="/jsp/teacher/bulletin/bulletin.jsp"><button class="btn btn-light long">公告发布</button></a>
+            </div>
+            <div class="form-group">
+                <a href="/Punch?method=findByUser"><button class="btn btn-light long">打卡</button></a>
+            </div>
+            <div class="form-group">
+                <a href="/LearningRecords?method=findByUser"><button class="btn btn-light long">编写日志</button></a>
+            </div>
+        </div>
+        <div th:if="${session.BulletinInfo != null}" class="bulletin form-control">
+            <div th:each="item : ${session.BulletinInfo}">
+                <h3>${item.title}</h3><time>${item.release_time}</time><br><br>
+                <p>${item.content}</p>
+            </div>
+        </div>
+    </div>
+<div th:replace="/templates/foot :: footer" ></div>
+</body>
+</html>

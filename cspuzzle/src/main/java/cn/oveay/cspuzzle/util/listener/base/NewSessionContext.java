@@ -1,12 +1,15 @@
 package cn.oveay.cspuzzle.util.listener.base;
 
 
+import lombok.extern.log4j.Log4j2;
+
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 
+@Log4j2
 public class NewSessionContext {
 //    private static UserService userService = new UserServiceImpl();
     private static HashMap<String, HttpSession> sessionMap = new HashMap();
@@ -18,7 +21,7 @@ public class NewSessionContext {
         // 加载配置文件
         Properties props = new Properties();
         try {
-            props.load(NewSessionContext.class.getClassLoader().getResourceAsStream("/config/config.properties"));
+            props.load(NewSessionContext.class.getClassLoader().getResourceAsStream("config/config.properties"));
         } catch (IOException e) {
             throw new RuntimeException("配置文件读取失败");
         }
@@ -45,6 +48,7 @@ public class NewSessionContext {
             if(isUseHeartBeat) {
                 session.setMaxInactiveInterval(timeout);
             }
+            log.info("Session " + session.getId() + " had connection");
             sessionMap.put(session.getId(), session);
 //            createTimeMap.put(session.getId(), new Date().getTime());
         }
@@ -57,6 +61,7 @@ public class NewSessionContext {
 //                user.setOnline(User.OFFLINE);
 //                userService.updateUser(user);
 //            }
+            log.info("Session " + session.getId() + " had destruction");
             sessionMap.remove(session.getId());
 //            createTimeMap.remove(session.getId());
         }

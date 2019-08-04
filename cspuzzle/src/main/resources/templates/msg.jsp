@@ -11,14 +11,14 @@
 <html>
 <head>
     <title>计算机科学基础知识答题网 - 消息</title>
-    <jsp:include page="templete/setting.html"></jsp:include>
+    <jsp:include page="templates/setting.html"></jsp:include>
     <meta http-equiv="refresh" content="1; URL=${toUrl}">
 </head>
 <body>
-<jsp:include page="templete/top.jsp"></jsp:include>
+<jsp:include page="templates/top.html"></jsp:include>
 <div class="center">
     <h1>${msg}</h1>
 </div>
-<jsp:include page="templete/foot.html"></jsp:include>
+<jsp:include page="templates/foot.html"></jsp:include>
 </body>
 </html>
