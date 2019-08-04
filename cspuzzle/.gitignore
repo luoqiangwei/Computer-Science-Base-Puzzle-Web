@@ -29,3 +29,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+target
+*.properties
+c3p0-config.xml
+RSA_*
+*.yml
