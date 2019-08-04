@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.ovea-y</groupId>
-    <artifactId>cspuzzle</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>cspuzzle</name>
+    <artifactId>computervaseknowlegepuzzle</artifactId>
+    <version>0.01</version>
+    <name>computervaseknowlegepuzzle</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

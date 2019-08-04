@@ -4,3 +4,4 @@ target
 *.properties
 c3p0-config.xml
 RSA_*
+*.yml
